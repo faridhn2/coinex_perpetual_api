@@ -3,7 +3,7 @@
 
 import logging
 from .request_client import RequestClient
-
+from .request_client_v2 import RequestClientV2
 
 class CoinexPerpetualApi(object):
     ORDER_DIRECTION_SELL = 1
@@ -17,6 +17,7 @@ class CoinexPerpetualApi(object):
 
     def __init__(self, access_id, secret_key, logger=None):
         self.request_client = RequestClient(access_id, secret_key, logger)
+        self.request_client_v2 = RequestClientV2(access_id, secret_key, logger)
 
     # System API
     def ping(self):
@@ -465,13 +466,16 @@ class CoinexPerpetualApi(object):
             "message": "ok"
         }
         """
-        path = '/v1/order/put_market'
+        path = 'v2/futures/order'
         data = {
             'market': market,
+            'market_type':'FUTURES',
+            'type': 'market',
             'amount': str(amount),
             'side': side
         }
-        return self.request_client.post(path, data)
+        
+        return self.request_client_v2.post(path, data)
 
     def put_stop_limit_order(self, market, side, amount, price, stop_price, stop_type=3, effect_type=1):
         """
