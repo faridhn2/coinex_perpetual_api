@@ -37,7 +37,7 @@ class RequestClientV2(object):
     #     print(str_params)
     #     token = hashlib.sha256(str_params).hexdigest()
     #     return token
-    def gen_sign(self, method, request_path, body, timestamp):
+    def get_sign(self, method, request_path, body, timestamp):
         prepared_str = f"{method}{request_path}{body}{timestamp}"
         signature = hmac.new(
             bytes(self.secret_key, 'latin-1'), 
