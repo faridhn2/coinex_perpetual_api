@@ -38,24 +38,27 @@ class RequestClientV2(object):
     #     token = hashlib.sha256(str_params).hexdigest()
     #     return token
     def get_sign(self, method, request_path, body, timestamp):
+        
         prepared_str = f"{method}{request_path}{body}{timestamp}"
+        print(prepared_str)
         signature = hmac.new(
             bytes(self.secret_key, 'latin-1'), 
             msg=bytes(prepared_str, 'latin-1'), 
             digestmod=hashlib.sha256
         ).hexdigest().lower()
+        print(signature)
         return signature
 
     def set_authorization(self, method, request_path, body, timestamp, headers):
         headers['X-COINEX-KEY'] = self.access_id
         headers['X-COINEX-SIGN'] = self.get_sign(method, request_path, body, timestamp)
-
+        headers['X-COINEX-TIMESTAMP'] = str(int(time.time()*1000))
     def get(self, path, params=None, sign=True):
         url = self.host + path
         params = params or {}
         
         headers = copy.copy(self.headers)
-        headers['X-COINEX-TIMESTAMP'] = str(int(time.time()*1000))
+        
         if sign:
             self.set_authorization('GET', path, "", str(int(time.time() * 1000)), headers)
         try:
@@ -84,7 +87,7 @@ class RequestClientV2(object):
         data = data or {}
        
         headers = copy.copy(self.headers)
-        headers['X-COINEX-TIMESTAMP'] = str(int(time.time()*1000))
+        
         self.set_authorization('POST', path, data, str(int(time.time()*1000)), headers)
         try:
             response = self.http_client.post(
