@@ -7,7 +7,7 @@ from urllib.parse import urlparse
 import requests
 
 
-class RequestsClient(object):
+class RequestClientV2(object):
     HEADERS = {
         "Content-Type": "application/json; charset=utf-8",
         "Accept": "application/json",
