@@ -244,7 +244,7 @@ class CoinexPerpetualApi2(object):
         path = '/futures/order'
         params = {
             'market': market,
-            '"market_type": "FUTURES",
+            "market_type": "FUTURES",
             "side": str(side),
             "type": "market",
             "amount": str(amount),
