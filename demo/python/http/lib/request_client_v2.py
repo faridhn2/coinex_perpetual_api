@@ -14,7 +14,7 @@ class RequestClientV2(object):
     __headers = {
         'Content-Type': 'application/json; charset=utf-8',
         'Accept': 'application/json',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36'
+        
     }
 
     def __init__(self, access_id, secret_key, logger=None, debug=False):
@@ -45,7 +45,7 @@ class RequestClientV2(object):
     def get(self, path, params=None, sign=True):
         url = self.host + path
         params = params or {}
-        params['X-COINEX-TIMESTAMP'] = int(time.time()*1000)
+        params['X-COINEX-TIMESTAMP'] = str(int(time.time()*1000))
         headers = copy.copy(self.headers)
         if sign:
             self.set_authorization(params, headers)
@@ -73,7 +73,7 @@ class RequestClientV2(object):
     def post(self, path, data=None):
         url = self.host + path
         data = data or {}
-        data['X-COINEX-TIMESTAMP'] = int(time.time()*1000)
+        data['X-COINEX-TIMESTAMP'] = str(int(time.time()*1000))
         headers = copy.copy(self.headers)
         self.set_authorization(data, headers)
         try:
