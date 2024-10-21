@@ -67,9 +67,11 @@ class RequestClientV2(object):
             )
 
         else:
+            print(data)
             signed_str = self.gen_sign(
                 method, request_path, body=data, timestamp=timestamp
             )
+            print(signed_str)
             response = requests.post(
                 url, data, headers=self.get_common_headers(signed_str, timestamp)
             )
