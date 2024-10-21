@@ -2,7 +2,7 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from .request_client3 import RequestClientV2
+from .request_client_v3 import RequestClientV2
 
 
 class CoinexPerpetualApi2(object):
