@@ -466,7 +466,7 @@ class CoinexPerpetualApi(object):
             "message": "ok"
         }
         """
-        path = 'v2/futures/order'
+        path = '/v2/futures/order'
         data = {
             'market': market,
             'market_type':'FUTURES',
