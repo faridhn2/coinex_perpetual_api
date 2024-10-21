@@ -262,7 +262,7 @@ class CoinexPerpetualApi2(object):
     def cancel_all_order(self, market):
         """
         # Request
-        POST https://api.coinex.com/v2/futures/cancel-order
+        POST https://api.coinex.com/v2/futures/cancel-all-order
         # Request.Body
         {
             "market": "CETUSDT",
@@ -289,6 +289,64 @@ class CoinexPerpetualApi2(object):
         "{url}{request_path}".format(url=self.request_client.url, request_path=path),
         data=data,
         )
+    
+    def stop_position(self, market, order_id):
+        """
+        # Request
+        POST https://api.coinex.com/v2/futures/close-position
+        # Request.Body
+        {
+            "market": "CETUSDT",
+            "market_type": "FUTURES",
+            "type": "limit",
+            "price": "0.056",
+            "amount": "10000",
+            "client_id": "user1",
+            "is_hide": true
+        }
+
+        # Response
+        {
+            "code": 0,
+            "data": {
+                "order_id": "13400",
+                "market": " CETUSDT",
+                "market_type": "FUTURES",
+                "side": "buy",
+                "type": "limit",
+                "amount": "10000",
+                "price": "1",
+                "unfilled_amount": "50241.7185224371",
+                "filled_amount": "27564.87468358",
+                "filled_value": "27564.87468358",
+                "client_id": "client_id_1",
+                "fee": "11.6582326221",
+                "fee_ccy": "USDT",
+                "maker_fee_rate": "0",
+                "taker_fee_rate": "0.0003",
+                "last_filled_amount": "27564.87468358",
+                "last_filled_price": "1",
+                "realized_pnl": "-22.142539215",
+                "created_at": 1691482451000,
+                "updated_at": 1691482451000
+            },
+            "message": "OK"
+        }
+        """
+        path = '/futures/close-position'
+        data = {
+            'market': market,
+            "market_type": "FUTURES",
+            "type": "market",
+            
+        }
+        data = json.dumps(data)
+        return self.request_client.request(
+        "POST",
+        "{url}{request_path}".format(url=self.request_client.url, request_path=path),
+        data=data,
+        )
+    
     def cancel_order(self, market, order_id):
         """
         # Request
