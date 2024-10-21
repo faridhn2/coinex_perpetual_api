@@ -3,7 +3,7 @@
 
 import logging
 from .request_client import RequestClient
-from .request_client_v2 import RequestClientV2
+
 
 class CoinexPerpetualApi(object):
     ORDER_DIRECTION_SELL = 1
@@ -17,7 +17,6 @@ class CoinexPerpetualApi(object):
 
     def __init__(self, access_id, secret_key, logger=None):
         self.request_client = RequestClient(access_id, secret_key, logger)
-        self.request_client_v2 = RequestClientV2(access_id, secret_key, logger)
 
     # System API
     def ping(self):
@@ -358,7 +357,7 @@ class CoinexPerpetualApi(object):
         """
         path = '/v1/asset/query'
         return self.request_client.get(path)
-    
+
     # Trading API
     def put_limit_order(self, market, side, amount, price, effect_type=1):
         """
@@ -466,34 +465,14 @@ class CoinexPerpetualApi(object):
             "message": "ok"
         }
         """
-        path = '/v2/futures/order'
-        if side == 1 :
-            side = 'sell'
-        else:
-            side = 'buy'
+        path = '/v1/order/put_market'
         data = {
             'market': market,
-            'market_type':'FUTURES',
-            'side': side,
-            'type': 'market',
             'amount': str(amount),
-            
+            'side': side
         }
-        
-        return self.request_client_v2.post(path, data)
+        return self.request_client.post(path, data)
 
-    def get_account_fee_rate(self, market_type, market):
-       
-        path = f'/v2/account/trade-fee-rate?market={market}&market_type={market_type}'
-        
-        data = {
-            'market_type':'FUTURES',
-            'market': market            
-        }
-        
-        return self.request_client_v2.get(path, data)
-
-    
     def put_stop_limit_order(self, market, side, amount, price, stop_price, stop_type=3, effect_type=1):
         """
         # params:
