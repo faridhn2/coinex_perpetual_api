@@ -290,7 +290,7 @@ class CoinexPerpetualApi2(object):
         data=data,
         )
     
-    def stop_position(self, market, order_id):
+    def stop_position(self, market):
         """
         # Request
         POST https://api.coinex.com/v2/futures/close-position
