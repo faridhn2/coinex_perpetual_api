@@ -180,7 +180,7 @@ class CoinexPerpetualApi2(object):
       }
         """
         path = '/futures/order'
-        params = {
+        data = {
             'market': market,
             "market_type": "FUTURES",
             "side": str(side),
@@ -191,7 +191,7 @@ class CoinexPerpetualApi2(object):
         return self.request_client.request(
         "POST",
         "{url}{request_path}".format(url=self.request_client.url, request_path=path),
-        params=params,
+        data=data,
         )
 
     def put_market_order(self, market, side, amount):
@@ -242,7 +242,7 @@ class CoinexPerpetualApi2(object):
     }
         """
         path = '/futures/order'
-        params = {
+        data = {
             'market': market,
             "market_type": "FUTURES",
             "side": str(side),
@@ -252,7 +252,7 @@ class CoinexPerpetualApi2(object):
         return self.request_client.request(
         "POST",
         "{url}{request_path}".format(url=self.request_client.url, request_path=path),
-        params=params,
+        data=data,
         )
 
     
@@ -297,7 +297,7 @@ class CoinexPerpetualApi2(object):
         }
         """
         path = '/futures/cancel-order'
-        params = {
+        data = {
             'market': market,
             "market_type": "FUTURES",
             'order_id': order_id
@@ -305,7 +305,7 @@ class CoinexPerpetualApi2(object):
         return self.request_client.request(
         "POST",
         "{url}{request_path}".format(url=self.request_client.url, request_path=path),
-        params=params,
+        data=data,
         )
 
     
