@@ -5,7 +5,7 @@ import logging
 from .request_client3 import RequestClientV2
 
 
-class CoinexPerpetualApi(object):
+class CoinexPerpetualApi2(object):
     ORDER_DIRECTION_SELL = 1
     ORDER_DIRECTION_BUY = 2
 
@@ -182,7 +182,7 @@ class CoinexPerpetualApi(object):
         path = '/futures/order'
         params = {
             'market': market,
-            '"market_type": "FUTURES",
+            "market_type": "FUTURES",
             "side": str(side),
             "type": "limit",
             "amount": str(amount),
