@@ -3,7 +3,7 @@
 
 import logging
 from .request_client_v3 import RequestClientV2
-
+import json
 
 class CoinexPerpetualApi2(object):
     ORDER_DIRECTION_SELL = 1
@@ -188,6 +188,7 @@ class CoinexPerpetualApi2(object):
             "amount": str(amount),
             "price": str(price),
         }
+        data = json.dumps(data)
         return self.request_client.request(
         "POST",
         "{url}{request_path}".format(url=self.request_client.url, request_path=path),
@@ -249,6 +250,7 @@ class CoinexPerpetualApi2(object):
             "type": "market",
             "amount": str(amount),
         }
+        data = json.dumps(data)
         return self.request_client.request(
         "POST",
         "{url}{request_path}".format(url=self.request_client.url, request_path=path),
@@ -302,6 +304,7 @@ class CoinexPerpetualApi2(object):
             "market_type": "FUTURES",
             'order_id': order_id
         }
+        data = json.dumps(data)
         return self.request_client.request(
         "POST",
         "{url}{request_path}".format(url=self.request_client.url, request_path=path),
