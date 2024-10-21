@@ -484,7 +484,7 @@ class CoinexPerpetualApi(object):
 
     def get_account_fee_rate(self, market_type, market):
        
-        path = '/v2/account/trade-fee-rate'
+        path = f'/v2/account/trade-fee-rate?market={market}&market_type={market_type}'
         
         data = {
             'market_type':'FUTURES',
