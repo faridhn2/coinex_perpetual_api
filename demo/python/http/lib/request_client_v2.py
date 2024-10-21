@@ -45,8 +45,9 @@ class RequestClientV2(object):
     def get(self, path, params=None, sign=True):
         url = self.host + path
         params = params or {}
-        params['X-COINEX-TIMESTAMP'] = str(int(time.time()*1000))
+        
         headers = copy.copy(self.headers)
+        headers['X-COINEX-TIMESTAMP'] = str(int(time.time()*1000))
         if sign:
             self.set_authorization(params, headers)
         try:
@@ -73,8 +74,9 @@ class RequestClientV2(object):
     def post(self, path, data=None):
         url = self.host + path
         data = data or {}
-        data['X-COINEX-TIMESTAMP'] = str(int(time.time()*1000))
+       
         headers = copy.copy(self.headers)
+        headers['X-COINEX-TIMESTAMP'] = str(int(time.time()*1000))
         self.set_authorization(data, headers)
         try:
             response = self.http_client.post(
