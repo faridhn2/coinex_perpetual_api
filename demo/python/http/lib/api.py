@@ -467,12 +467,17 @@ class CoinexPerpetualApi(object):
         }
         """
         path = '/v2/futures/order'
+        if side == 1 :
+            side = 'sell'
+        else:
+            side = 'buy'
         data = {
             'market': market,
             'market_type':'FUTURES',
+            'side': side,
             'type': 'market',
             'amount': str(amount),
-            'side': side
+            
         }
         
         return self.request_client_v2.post(path, data)
