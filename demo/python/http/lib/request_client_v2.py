@@ -48,7 +48,7 @@ class RequestClientV2(object):
 
     def set_authorization(self, method, request_path, body, timestamp, headers):
         headers['X-COINEX-KEY'] = self.access_id
-        headers['X-COINEX-SIGN'] = self.get_sign(params)
+        headers['X-COINEX-SIGN'] = self.get_sign(method, request_path, body, timestamp)
 
     def get(self, path, params=None, sign=True):
         url = self.host + path
