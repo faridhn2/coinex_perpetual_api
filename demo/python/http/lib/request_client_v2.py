@@ -34,7 +34,7 @@ class RequestClientV2(object):
 
         str_params = "{0}&secret_key={1}".format(
             '&'.join(data), secret_key).encode()
-
+        print(str_params)
         token = hashlib.sha256(str_params).hexdigest()
         return token
 
