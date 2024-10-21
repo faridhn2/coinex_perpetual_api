@@ -346,7 +346,43 @@ class CoinexPerpetualApi2(object):
         "{url}{request_path}".format(url=self.request_client.url, request_path=path),
         data=data,
         )
-    
+
+    def adjust_leverage(self, market,margin_mode,leverage):
+        """
+        # Request
+        POST https://api.coinex.com/v2/futures/adjust-position-leverage
+        # Request.Body
+        {
+            "market": "CETUSDT",
+            "market_type": "FUTURES",
+            "margin_mode": "cross",
+            "leverage": 10
+        }
+
+        # Response
+        {
+            "code": 0,
+            "data": {
+                "margin_mode": "cross",
+                "leverage": 10
+            },
+            "message": "OK"
+        }
+        """
+        path = '/futures/adjust-position-leverage'
+        data = {
+            'market': market,
+            "market_type": "FUTURES",
+            "margin_mode": margin_mode,
+            "leverage": leverage
+            
+        }
+        data = json.dumps(data)
+        return self.request_client.request(
+        "POST",
+        "{url}{request_path}".format(url=self.request_client.url, request_path=path),
+        data=data,
+        )
     def cancel_order(self, market, order_id):
         """
         # Request
