@@ -8,7 +8,7 @@ import logging
 import requests
 import time
 import traceback
-
+import hmac
 
 class RequestClientV2(object):
     __headers = {
@@ -28,19 +28,27 @@ class RequestClientV2(object):
         self.http_client = session
         self.logger = logger or logging
 
-    @staticmethod
-    def get_sign(params, secret_key):
-        data = ['='.join([str(k), str(v)]) for k, v in params.items()]
+    # @staticmethod
+    # def get_sign(params, secret_key):
+    #     data = ['='.join([str(k), str(v)]) for k, v in params.items()]
 
-        str_params = "{0}&secret_key={1}".format(
-            '&'.join(data), secret_key).encode()
-        print(str_params)
-        token = hashlib.sha256(str_params).hexdigest()
-        return token
+    #     str_params = "{0}&secret_key={1}".format(
+    #         '&'.join(data), secret_key).encode()
+    #     print(str_params)
+    #     token = hashlib.sha256(str_params).hexdigest()
+    #     return token
+    def gen_sign(self, method, request_path, body, timestamp):
+        prepared_str = f"{method}{request_path}{body}{timestamp}"
+        signature = hmac.new(
+            bytes(self.secret_key, 'latin-1'), 
+            msg=bytes(prepared_str, 'latin-1'), 
+            digestmod=hashlib.sha256
+        ).hexdigest().lower()
+        return signature
 
-    def set_authorization(self, params, headers):
+    def set_authorization(self, method, request_path, body, timestamp, headers):
         headers['X-COINEX-KEY'] = self.access_id
-        headers['X-COINEX-SIGN'] = self.get_sign(params, self.secret_key)
+        headers['X-COINEX-SIGN'] = self.get_sign(params)
 
     def get(self, path, params=None, sign=True):
         url = self.host + path
@@ -49,7 +57,7 @@ class RequestClientV2(object):
         headers = copy.copy(self.headers)
         headers['X-COINEX-TIMESTAMP'] = str(int(time.time()*1000))
         if sign:
-            self.set_authorization(params, headers)
+            self.set_authorization('GET', path, "", str(int(time.time() * 1000)), headers)
         try:
             response = self.http_client.get(
                 url, params=params, headers=headers, timeout=5)
@@ -77,7 +85,7 @@ class RequestClientV2(object):
        
         headers = copy.copy(self.headers)
         headers['X-COINEX-TIMESTAMP'] = str(int(time.time()*1000))
-        self.set_authorization(data, headers)
+        self.set_authorization('POST', path, data, str(int(time.time()*1000)), headers)
         try:
             response = self.http_client.post(
                 url, data=data, headers=headers, timeout=10)
