@@ -358,7 +358,7 @@ class CoinexPerpetualApi(object):
         """
         path = '/v1/asset/query'
         return self.request_client.get(path)
-
+    
     # Trading API
     def put_limit_order(self, market, side, amount, price, effect_type=1):
         """
@@ -482,6 +482,18 @@ class CoinexPerpetualApi(object):
         
         return self.request_client_v2.post(path, data)
 
+    def get_account_fee_rate(self, market_type, market):
+       
+        path = '/v2/account/trade-fee-rate'
+        
+        data = {
+            'market_type':'FUTURES',
+            'market': market            
+        }
+        
+        return self.request_client_v2.get(path, data)
+
+    
     def put_stop_limit_order(self, market, side, amount, price, stop_price, stop_type=3, effect_type=1):
         """
         # params:
