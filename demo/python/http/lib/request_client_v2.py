@@ -39,13 +39,13 @@ class RequestClientV2(object):
         return token
 
     def set_authorization(self, params, headers):
-        headers['AccessId'] = self.access_id
-        headers['Authorization'] = self.get_sign(params, self.secret_key)
+        headers['X-COINEX-KEY'] = self.access_id
+        headers['X-COINEX-SIGN'] = self.get_sign(params, self.secret_key)
 
     def get(self, path, params=None, sign=True):
         url = self.host + path
         params = params or {}
-        params['timestamp'] = int(time.time()*1000)
+        params['X-COINEX-TIMESTAMP'] = int(time.time()*1000)
         headers = copy.copy(self.headers)
         if sign:
             self.set_authorization(params, headers)
@@ -73,7 +73,7 @@ class RequestClientV2(object):
     def post(self, path, data=None):
         url = self.host + path
         data = data or {}
-        data['timestamp'] = int(time.time()*1000)
+        data['X-COINEX-TIMESTAMP'] = int(time.time()*1000)
         headers = copy.copy(self.headers)
         self.set_authorization(data, headers)
         try:
