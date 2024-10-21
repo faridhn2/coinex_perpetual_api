@@ -259,6 +259,36 @@ class CoinexPerpetualApi2(object):
 
     
     
+    def cancel_all_order(self, market):
+        """
+        # Request
+        POST https://api.coinex.com/v2/futures/cancel-order
+        # Request.Body
+        {
+            "market": "CETUSDT",
+            "market_type": "FUTURES",
+            "side": "sell"
+        }
+
+        # Response
+        {
+             "code": 0,
+            "data": {},
+            "message": "OK"
+        }
+        """
+        path = '/futures/cancel-all-order'
+        data = {
+            'market': market,
+            "market_type": "FUTURES",
+            
+        }
+        data = json.dumps(data)
+        return self.request_client.request(
+        "POST",
+        "{url}{request_path}".format(url=self.request_client.url, request_path=path),
+        data=data,
+        )
     def cancel_order(self, market, order_id):
         """
         # Request
